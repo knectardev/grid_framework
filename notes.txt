@@ -1,0 +1,155 @@
+You are building a standalone experimental web application
+to validate Golden Layout as a workspace framework for a future
+integration into the ntree project.
+
+This is an architectural proof-of-concept.
+
+Golden Layout is the layout engine.
+Do NOT build a custom layout system.
+
+The application must demonstrate configuration-driven layout
+persistence consistent with ntree architectural principles.
+
+------------------------------------------------------------
+PRIMARY OBJECTIVES
+------------------------------------------------------------
+
+1. Use Golden Layout directly.
+2. Persist layout as JSON configuration.
+3. Backend owns layout persistence.
+4. Frontend renders strictly from backend layout state.
+5. Implement Undo/Redo using layout history.
+6. No custom layout algorithms.
+7. Deterministic reload behavior.
+8. Components remain decoupled from layout logic.
+
+------------------------------------------------------------
+UNDO / REDO REQUIREMENTS
+------------------------------------------------------------
+
+Golden Layout does NOT provide undo functionality.
+
+Implement application-level history:
+
+- Maintain a layout history stack in the frontend.
+- After every layout change:
+    - serialize layout using Golden Layout API
+    - push snapshot onto history stack
+- Limit history size to 50 states.
+
+Keyboard shortcuts:
+
+CTRL + Z           → Undo
+CTRL + SHIFT + Z   → Redo
+
+Undo behavior:
+
+1. Pop previous layout JSON from history.
+2. Destroy current Golden Layout instance.
+3. Reinitialize Golden Layout using previous config.
+4. Sync state with backend.
+
+Redo reverses undo operation.
+
+IMPORTANT:
+Undo operates on layout JSON snapshots,
+NOT individual UI events.
+
+------------------------------------------------------------
+TECH STACK
+------------------------------------------------------------
+
+Backend:
+- Python 3.11+
+- FastAPI
+- Pydantic
+- JSON file storage
+- No database
+
+Frontend:
+- Vite
+- TypeScript
+- Golden Layout (official package)
+- Minimal CSS only for visibility
+
+------------------------------------------------------------
+BACKEND STRUCTURE
+------------------------------------------------------------
+
+/backend
+    main.py
+    layout/
+        models.py
+        storage.py
+        api.py
+
+Define:
+
+GoldenLayoutConfig:
+    name: str
+    config: dict
+    version: int
+
+API:
+
+GET  /layout/{name}
+POST /layout/{name}
+PATCH /layout/{name}
+
+Requirements:
+
+- Store layout JSON exactly as received.
+- Validate config exists.
+- Maintain version number.
+- Ensure round-trip integrity.
+
+------------------------------------------------------------
+FRONTEND STRUCTURE
+------------------------------------------------------------
+
+/frontend
+    layout/
+        golden.ts     # Golden Layout initialization
+        history.ts    # undo/redo system
+        sync.ts       # backend communication
+
+Implement:
+
+1. Fetch layout config from backend.
+2. Initialize Golden Layout from JSON.
+3. Register demo panels:
+    - Explorer
+    - Editor
+    - Inspector
+4. Listen for layout state changes.
+5. Serialize layout on change.
+6. Push snapshot to history stack.
+7. Persist layout to backend.
+8. Support undo/redo keyboard shortcuts.
+9. Recreate layout instance when undo/redo occurs.
+
+------------------------------------------------------------
+SUCCESS CRITERIA
+------------------------------------------------------------
+
+The demo succeeds if:
+
+- Panels can be resized and rearranged.
+- Layout persists after reload.
+- CTRL+Z restores previous layout.
+- CTRL+SHIFT+Z reapplies changes.
+- Layout JSON remains deterministic.
+- Backend remains authoritative.
+- Components contain no layout logic.
+
+------------------------------------------------------------
+DO NOT
+------------------------------------------------------------
+
+- Do NOT implement custom layout math.
+- Do NOT create recursive schema models.
+- Do NOT add styling frameworks.
+- Do NOT overengineer validation.
+
+Focus on clarity and ntree alignment.
+Explain architectural decisions with comments.

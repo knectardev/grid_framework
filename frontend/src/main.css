@@ -1,0 +1,28 @@
+/* Minimal CSS for visibility. No styling framework. */
+html, body, #app {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Golden Layout host */
+.lm_root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Demo panel content visibility */
+.panel-explorer,
+.panel-editor,
+.panel-inspector,
+.panel-output {
+  padding: 0.75rem;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+.panel-explorer  { background: #1e293b; color: #e2e8f0; }
+.panel-editor    { background: #0f172a; color: #cbd5e1; }
+.panel-inspector { background: #334155; color: #f1f5f9; }
+.panel-output    { background: #1e3a5f; color: #e0f2fe; }
