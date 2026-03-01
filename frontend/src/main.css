@@ -26,3 +26,12 @@ html, body, #app {
 .panel-editor    { background: #0f172a; color: #cbd5e1; }
 .panel-inspector { background: #334155; color: #f1f5f9; }
 .panel-output    { background: #1e3a5f; color: #e0f2fe; }
+
+/* Hide Golden Layout header controls (popout, maximise, close) and tab close (X) */
+.lm_popout,
+.lm_maximise,
+.lm_close,
+.lm_close_tab {
+  display: none !important;
+}
+

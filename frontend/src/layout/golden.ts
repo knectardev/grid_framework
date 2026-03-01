@@ -24,23 +24,32 @@ export function getDefaultLayoutConfig(): LayoutConfig {
           type: "component",
           componentType: "Explorer",
           id: "explorer",
+          isClosable: false,
         },
         {
           type: "component",
           componentType: "Editor",
           id: "editor",
+          isClosable: false,
         },
         {
           type: "component",
           componentType: "Inspector",
           id: "inspector",
+          isClosable: false,
         },
         {
           type: "component",
           componentType: "Output",
           id: "output",
+          isClosable: false,
         },
       ],
+    },
+    header: {
+      popout: false,
+      maximise: false,
+      close: false,
     },
   };
 }
